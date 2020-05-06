@@ -57,7 +57,6 @@ let loadPhoto = (photoNumber) => {
     $('#photo-title').text(imagesData[photoNumber].title);
     $('#photo-description').text(imagesData[photoNumber].descripion);
     
-
 };
 
 loadPhoto(currentPhoto);
@@ -72,15 +71,9 @@ $('.left').click(() => {
     loadPhoto(currentPhoto);
   })
 
-$('.right').click(() => {
-    if(currentPhoto < 7) {
-        currentPhoto++;
-    } else{
-        currentPhoto = 0;
-    }
-    loadPhoto(currentPhoto);
-    loadPhoto().prev().toggleClass('active');
-  })
+
+
+  
 
 // create thumbnails + thumbnail handler
 
@@ -88,7 +81,7 @@ $(imagesData).each( function(photoNumber) {
     $('.all-thumbnail-container').append(
         `
         <div class="small-thumbnail-container" data-number="${photoNumber}">
-            <img id="" src="${imagesData[photoNumber].photo}" alt="">
+            <img id="" src="${imagesData[photoNumber].photo}" alt="" data-number="${photoNumber}">
         </div>
         `
     );
@@ -100,5 +93,26 @@ $('.small-thumbnail-container').click((event) => {
     let numberIndex = parseInt(indexClicked);
     photoNumber = numberIndex;
     loadPhoto(photoNumber);
+    
 });
 
+$('.right').click(() => {
+    if(currentPhoto < 7) {
+        currentPhoto++;
+    } else{
+        currentPhoto = 0;
+    }
+    
+    loadPhoto(currentPhoto);
+    $('.small-thumbnail-container').toggleClass('active');
+    
+    
+  })
+
+
+
+/*$('.right').on( 'click', () => {
+        $(`[data-number]=${currentPhoto}`).toggleClass('active');
+        $(`[data-number]=${currentPhoto-1}`).toggleClass('active');
+    });
+console.log(`[data-number]=${photoNumber}`)*/
