@@ -5,12 +5,12 @@ let photoNumber = 0;
 //main array - database
 let imagesData = [
     {
-        photo: './img/Notorius Bounty Hunters.jpg',
+        photo: './img/Notorius Bounty Hunters_resize.jpg',
         title: 'Notorius Bounty Hunters',
         descripion: 'The most feared warriors and hunters of the galaxy!'
     },
     {
-        photo: './img/Clones of the Empire.jpg',
+        photo: './img/Clones of the Empire_rezise.jpg',
         title: 'Clones of the Empire',
         descripion: 'Created to protect and defend the Republic.'
     },
@@ -35,7 +35,7 @@ let imagesData = [
         descripion: 'Use it with care, it is far more than a weapon!'
     },
     {
-        photo: './img/Lord Vader.jpg',
+        photo: './img/Lord Vader_resize.jpg',
         title: 'Lord Vader',
         descripion: 'Fear and power incarnate!'
     },
@@ -46,12 +46,19 @@ let imagesData = [
     },
 ]
 
+$().ready( () => {
+    $(`[data-number=${0}]`).toggleClass('active');
+
+})
+
 //load the proper image, with the proper tittle and text
 let loadPhoto = (photoNumber) => {
     $('#photo').attr('src',imagesData[photoNumber].photo);
     $('#photo-title').text(imagesData[photoNumber].title);
     $('#photo-description').text(imagesData[photoNumber].descripion);
-}
+    
+
+};
 
 loadPhoto(currentPhoto);
 
@@ -72,5 +79,26 @@ $('.right').click(() => {
         currentPhoto = 0;
     }
     loadPhoto(currentPhoto);
+    loadPhoto().prev().toggleClass('active');
   })
+
+// create thumbnails + thumbnail handler
+
+$(imagesData).each( function(photoNumber) {
+    $('.all-thumbnail-container').append(
+        `
+        <div class="small-thumbnail-container" data-number="${photoNumber}">
+            <img id="" src="${imagesData[photoNumber].photo}" alt="">
+        </div>
+        `
+    );
+    
+});
+
+$('.small-thumbnail-container').click((event) => {
+    let indexClicked = $(event.target).parent().attr('data-number');
+    let numberIndex = parseInt(indexClicked);
+    photoNumber = numberIndex;
+    loadPhoto(photoNumber);
+});
 
