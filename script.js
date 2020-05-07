@@ -57,6 +57,8 @@ let loadPhoto = (photoNumber) => {
     $('#photo-title').text(imagesData[photoNumber].title);
     $('#photo-description').text(imagesData[photoNumber].descripion);
     
+    $('.all-thumbnail-container div').removeClass('active');
+    $(`.small-thumbnail-container[data-number=${photoNumber}]`).addClass('active');
 };
 
 loadPhoto(currentPhoto);
@@ -71,13 +73,21 @@ $('.left').click(() => {
     loadPhoto(currentPhoto);
   })
 
-
-
-  
+  $('.right').click(() => {
+    if(currentPhoto < 7) {
+        currentPhoto++;
+    } else{
+        currentPhoto = 0;
+    }
+    
+    loadPhoto(currentPhoto);   
+    
+  })  
 
 // create thumbnails + thumbnail handler
+//-origina idea
 
-$(imagesData).each( function(photoNumber) {
+/*$(imagesData).each( function(photoNumber) {
     $('.all-thumbnail-container').append(
         `
         <div class="small-thumbnail-container" data-number="${photoNumber}">
@@ -86,7 +96,23 @@ $(imagesData).each( function(photoNumber) {
         `
     );
     
+});*/
+
+//-got some help (working)
+imagesData.forEach( (element, index) => {
+    $('.all-thumbnail-container').append(
+        `
+        <div class="small-thumbnail-container" data-number=${index}>
+            <img id="" src="${element.photo}" alt="${element.title}" data-number=${index}>
+        </div>
+        `
+    );
+    
 });
+
+
+
+
 
 $('.small-thumbnail-container').click((event) => {
     let indexClicked = $(event.target).parent().attr('data-number');
@@ -96,18 +122,6 @@ $('.small-thumbnail-container').click((event) => {
     
 });
 
-$('.right').click(() => {
-    if(currentPhoto < 7) {
-        currentPhoto++;
-    } else{
-        currentPhoto = 0;
-    }
-    
-    loadPhoto(currentPhoto);
-    $('.small-thumbnail-container').toggleClass('active');
-    
-    
-  })
 
 
 
